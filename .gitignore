@@ -1,0 +1,6 @@
+.vscode
+.idea
+layer/
+build/
+dirty.py
+setup.cfg

@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Provision the AWS Lambda function
+
+Parameters:
+
+  env:
+    Type: String
+    Default: dev
+    Description: Environment Name
+
+Resources:
+  s3monitor:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: !Sub instance-watcher-${env}
+      Description: Monitoring Running EC2 Instances
+      Handler: handlers.main
+      Runtime: python3.7
+      CodeUri: ./build
+      MemorySize: 128
+      Timeout: 30
+      Layers:
+        - !Ref boto3layer
+      Policies:
+        - AWSLambdaExecute # Managed Policy
+        - Version: '2012-10-17' # Policy Document
+          Statement:
+            - Effect: Allow
+              Action:
+              - ec2:DescribeRegions
+              - ec2:DescribeInstances
+              - ec2:DescribeInstanceStatus
+              - ses:SendEmail
+              Resource: '*'
+      Events:
+        Timer:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 day)
+      Tags:
+        Project: instance-watcher
+
+  boto3layer:
+    Type: 'AWS::Serverless::LayerVersion'
+    Properties:
+      LayerName: boto3-layer
+      Description: boto3 layer
+      ContentUri: ./layer
+      CompatibleRuntimes:
+        - python2.7
+        - python3.6
+        - python3.7
+      LicenseInfo: 'Available under the MIT-0 license.'
+      RetentionPolicy: Retain
