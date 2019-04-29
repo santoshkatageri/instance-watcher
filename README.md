@@ -2,16 +2,16 @@
 
 ## Description
 
-This lambda function will send you once a day an email with the list of the running EC2 instances on all AWS region for a defined AWS Account.
+This lambda function will send you once a day an email with the list of the running EC2 instances on all AWS region for an AWS Account.
 
 ## Core features
 
 * [ ] List running EC2 instances accross all AWS Regions
-* [ ] Check `instance-id`, `instance_type`, `region`, `launch_time`
+* [ ] Check `instance-id`, `instance_type`, `region`
 * [ ] Send summuary by email once a day
-* [ ] Serverless Architecture
+* [ ] Serverless Architecture using lambda and lambda layer
 
-## Requierements
+## Requirements
 
 * Verified SES email
 * Create `instance-watcher-artifacts` s3 bucket
@@ -24,15 +24,16 @@ change emails settings in `handlers.py`
 # Email Settings
 recipients = ['ops@company.com', 'you@company.com']
 subject = '[AWS] Instance Watcher - '
-sender = 'Instance Watcher <victor.grenu@gmail.com>'
+sender = 'Instance Watcher <ops@company.com>'
 charset = "UTF-8"
 ```
-
+        $ make layer
         $ make package
         $ make deploy
 
 ## Todo
 
+* Add EC2 Launch time Column
 * Add RDS Instances
 * Add Detached EBS
 * Add Detached EIP
