@@ -8,7 +8,7 @@ sts = session.client('sts')
 
 # Email Settings
 recipients = ['victor.grenu@gmail.com']
-subject = '[AWS] Instance Watcher - '
+subject = '[AWS] Instance Watcher 👀 - '
 sender = 'Instance Watcher <victor.grenu@gmail.com>'
 charset = "UTF-8"
 
@@ -22,19 +22,6 @@ def split(arr, size):
     arrs.append(arr)
     return arrs
 
-# def checkemail(event, context):
-#     client.verify_email_identity(
-#         EmailAddress='user@example.com',
-# if email verified
-# else
-# verify email identify
-#     client.list_identities(
-#         IdentityType='EmailAddress'|'Domain',
-#         NextToken='string',
-#         MaxItems=123
-# )
-#     )
-
 
 def main(event, context):
     running = []
@@ -46,15 +33,21 @@ def main(event, context):
         instances = conn.instances.filter()
         for instance in instances:
             if instance.state["Name"] == "running":
-                print(instance.id, instance.instance_type, region)
+                for tags in instance.tags:
+                    if tags["Key"] == 'Name':
+                        instancename = tags["Value"]
+                print(instancename, instance.id, instance.instance_type, instance.key_name, region, instance.launch_time.strftime("%Y-%m-%d %H:%M:%S"))
                 running.append({
-                    "id":instance.id,
-                    "instance_type":instance.instance_type,
-                    "region":region
+                    "instance_name": instancename,
+                    "id": instance.id,
+                    "instance_type": instance.instance_type,
+                    "key_pair": instance.key_name,
+                    "region": region,
+                    "launch_time": instance.launch_time.strftime("%Y-%m-%d %H:%M:%S")
                 })
             else:
                 print("No running instance, but some exist (Stopped, Terminated)")
-    print("Total number of running instance(s): ", len(running))
+    print("Total number of running instance(s):", len(running))
 
     if len(running) == 0:
         print("Nothing to do here, no running EC2")
@@ -65,16 +58,17 @@ def main(event, context):
                      )
         body_html = """<html>
         <body>
-        <h1>Instance Watcher</h1>
-        <p>AWS AccountID: """ + account + """</p>
-        <p>Running EC2 Instances: </p>
+        <h1>Instance Watcher 👀</h1>
+        <p>AWS AccountID: <a href="https://""" + account + """.signin.aws.amazon.com/console">""" + account + """</a></p>
+        <h3>Running EC2 Instances: </h3>
         <table cellpadding="4" cellspacing="4" border="1">
-        <tr><td><strong>Instance ID</strong></td><td><strong>Intsance Type</strong></td><td><strong>Region</strong></td></tr>
+        <tr><td><strong>Name</strong></td><td><strong>Instance ID</strong></td><td><strong>Intsance Type</strong></td><td><strong>Key Name</strong></td><td><strong>Region</strong></td><td><strong>Launch Time</strong></td></tr>
         """ + \
-        "\n".join([f"<tr><td>{r['id']}</td><td>{r['instance_type']}</td><td>{r['region']}</td></tr>" for r in running]) \
-        + """
+            "\n".join([f"<tr><td>{r['instance_name']}</td><td>{r['id']}</td><td>{r['instance_type']}</td><td>{r['key_pair']}</td><td>{r['region']}</td><td>{r['launch_time']}</td></tr>" for r in running]) \
+            + """
         </table>
-        <p>- Total number of running instance(s): """ + str(len(running)) + """</p>
+        <p>Total number of running instance(s): """ + str(len(running)) + """</p>
+        <p><a href="https://github.com/z0ph/instance-watcher">Instance Watcher 🖤</a></p>
         </body>
         </html>
         """
@@ -102,5 +96,6 @@ def main(event, context):
         )
         print("Email sent! Message ID:"),
         print(response['MessageId'])
+
 
 #main(0, 0)
