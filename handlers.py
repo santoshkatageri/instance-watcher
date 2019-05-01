@@ -13,16 +13,6 @@ sender = 'Instance Watcher <victor.grenu@gmail.com>'
 charset = "UTF-8"
 
 
-def split(arr, size):
-    arrs = []
-    while len(arr) > size:
-        pice = arr[:size]
-        arrs.append(pice)
-        arr = arr[size:]
-    arrs.append(arr)
-    return arrs
-
-
 def main(event, context):
     running = []
     account = sts.get_caller_identity().get('Account')
@@ -54,7 +44,7 @@ def main(event, context):
     else:
         print("Sending email to: " + str(recipients))
         body_text = ("Instance Watcher\r\n"
-                     "Running EC2 Instances" + str(split(running, 3))
+                     "Running EC2 Instances" + str(len(running))
                      )
         body_html = """<html>
         <body>

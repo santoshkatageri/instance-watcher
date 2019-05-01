@@ -2,7 +2,8 @@
 
 ## Description
 
-This AWS Lambda function will send you once a day an email with the list of the running EC2 instances on all AWS region for a giver AWS Account.
+This AWS Lambda function will send you once a day a recap email with the list of the running EC2 instances on all AWS region for a giver AWS Account.
+I'm using this for nonprod, lab, and personal AWS accounts, to get a kindly reminder of what I've left running.
 
 ## Core features
 
@@ -13,7 +14,7 @@ This AWS Lambda function will send you once a day an email with the list of the 
 
 ## Requirements
 
-* Verified SES email (sender)
+* [Verify](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses-procedure.html) your sender SES email
 * Create `<your_project>-artifacts` s3 bucket (default is instance-watcher)
 
 ## Deployment
@@ -29,7 +30,7 @@ charset = "UTF-8"
 ```
         $ make layer
         $ make package project=<your_project>
-        $ make deploy
+        $ make deploy project=<your_project>
 
 ## Todo
 

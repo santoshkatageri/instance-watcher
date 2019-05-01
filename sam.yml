@@ -10,7 +10,7 @@ Parameters:
     Description: Environment Name
 
 Resources:
-  s3monitor:
+  InstanceWatcherFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
       FunctionName: !Sub instance-watcher-${env}
@@ -32,6 +32,7 @@ Resources:
               - ec2:DescribeInstances
               - ec2:DescribeInstanceStatus
               - ses:SendEmail
+              - iam:GetRole
               Resource: '*'
       Events:
         Timer:
