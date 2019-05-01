@@ -7,10 +7,10 @@ I'm using this for nonprod, lab, and personal AWS accounts, to get a kindly remi
 
 ## Core features
 
-* [ ] List running EC2 instances accross all AWS Regions
-* [ ] Check `name`, `instance-id`, `instance_type`, `key_name`, `region`, `launch_time`
-* [ ] Send summuary by email once a day
-* [ ] Serverless Architecture using Lambda, Lambda layer, SES
+* List running EC2 instances accross all AWS Regions
+* Check `name`, `instance-id`, `instance_type`, `key_name`, `region`, `launch_time`
+* Send summuary by email once a day
+* Serverless Architecture using Lambda, Lambda layer, SES
 
 ## Requirements
 
@@ -34,6 +34,7 @@ charset = "UTF-8"
 
 ## Todo
 
+* Create input file for settings or param store (recipients, sender, etc..)
 * Add RDS Instances table
 * Add Detached EBS table
 * Add Detached EIP table
