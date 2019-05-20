@@ -33,6 +33,7 @@ Resources:
               - ec2:DescribeInstanceStatus
               - ses:SendEmail
               - iam:GetRole
+              - iam:ListAccountAliases
               Resource: '*'
       Events:
         Timer:
