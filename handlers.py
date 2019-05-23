@@ -8,9 +8,9 @@ sts = session.client('sts')
 
 # Email Settings
 # export to external file or aws parameter store
-recipients = ['victor.grenu@external.engie.com']
+recipients = ['victor.grenu@gmail.com']
 subject = '[AWS] Instance Watcher 👀 - '
-sender = 'Instance Watcher <victor.grenu@external.engie.com>'
+sender = 'Instance Watcher <victor.grenu@gmail.com>'
 charset = "UTF-8"
 
 def main(event, context):
