@@ -1,4 +1,4 @@
-# EC2 Instance Watcher :eyes:
+# Instance Watcher :eyes:
 
 ## Description
 
