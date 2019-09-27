@@ -24,6 +24,8 @@ I'm using this for non-prod, lab, and personal AWS accounts, to get a kindly rem
 
 Change emails settings in `handlers.py`
 
+> Will be changed to use env vars or parameter store (work in progress)
+
 ```bash
 # Email Settings
 recipients = ['ops_team@company.com', 'you@company.com']
@@ -49,6 +51,5 @@ If you want to whitelist a specific EC2 instance to be hidden from the daily rep
 ## Todo
 
 * Create input file for settings or param store (recipients, sender, etc..)
-* Add RDS Instances table
 * Multi-Account Support
 * Add instance role column

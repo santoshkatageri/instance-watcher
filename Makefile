@@ -7,7 +7,7 @@ help:
 	@echo "clean-layer - clean the layer folder"
 	@echo "cleaning - clean build and layer folders"
 
-project ?= instance-watcher
+project ?= instance-watcher-meta
 S3_BUCKET ?= ${project}-artifacts
 AWS_REGION ?= eu-west-1
 env ?= dev

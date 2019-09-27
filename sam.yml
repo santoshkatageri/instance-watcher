@@ -19,7 +19,7 @@ Resources:
       Runtime: python3.7
       CodeUri: ./build
       MemorySize: 128
-      Timeout: 30
+      Timeout: 120
       Layers:
         - !Ref boto3layer
       Policies:
@@ -31,6 +31,7 @@ Resources:
               - ec2:DescribeRegions
               - ec2:DescribeInstances
               - ec2:DescribeInstanceStatus
+              - rds:DescribeDBInstances
               - ses:SendEmail
               - iam:GetRole
               - iam:ListAccountAliases
