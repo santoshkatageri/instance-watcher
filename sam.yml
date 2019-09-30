@@ -1,27 +1,40 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: Provision the AWS Lambda function
-
+###########################################################
 Parameters:
-
-  env:
+###########################################################
+  ENV:
     Type: String
     Default: dev
     Description: Environment Name
-
+  RECIPIENTS:
+    Type: String
+    Default: john@doe.com
+    Description: List of recipients
+  SENDER:
+    Type: String
+    Default: john@doe.com
+    Description: Sender
+###########################################################
 Resources:
+###########################################################
   InstanceWatcherFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
-      FunctionName: !Sub instance-watcher-${env}
-      Description: Monitoring Running EC2 Instances
+      FunctionName: !Sub instance-watcher-${ENV}
+      Description: Monitoring Running EC2/RDS Instances
       Handler: handlers.main
       Runtime: python3.7
       CodeUri: ./build
-      MemorySize: 128
+      MemorySize: 256
       Timeout: 120
       Layers:
         - !Ref boto3layer
+      Environment:
+        Variables:
+          RECIPIENTS: !Ref RECIPIENTS
+          SENDER: !Ref SENDER
       Policies:
         - AWSLambdaExecute # Managed Policy
         - Version: '2012-10-17' # Policy Document

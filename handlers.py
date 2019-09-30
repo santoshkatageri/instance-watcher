@@ -1,4 +1,5 @@
 import boto3
+import os
 
 AWS_REGION = 'eu-west-1'
 session = boto3.Session(region_name=AWS_REGION)
@@ -7,10 +8,9 @@ ses = session.client('ses')
 sts = session.client('sts')
 
 # Email Settings
-# export to external file or aws parameter store
-recipients = ['victor.grenu@gmail.com']
+recipients = os.environ['RECIPIENTS'].split()
 subject = '[AWS] Instance Watcher 👀 - '
-sender = 'Instance Watcher <victor.grenu@gmail.com>'
+sender = "Instance Watcher <" + os.environ['SENDER'] + ">"
 charset = "UTF-8"
 
 def main(event, context):

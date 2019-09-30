@@ -7,10 +7,15 @@ help:
 	@echo "clean-layer - clean the layer folder"
 	@echo "cleaning - clean build and layer folders"
 
-project ?= instance-watcher-meta
-S3_BUCKET ?= ${project}-artifacts
+###################### Variables ######################
+PROJECT ?= instance-watcher
+S3_BUCKET ?= ${PROJECT}-artifacts
 AWS_REGION ?= eu-west-1
-env ?= dev
+# Recipients are space delimited (ie: john@doe.com david@doe.com)
+RECIPIENTS := john.doe@domain.com
+SENDER := john.doe@domain.com
+ENV ?= dev
+#######################################################
 
 package: clean
 	@echo "Consolidating python code in ./build"
@@ -20,18 +25,29 @@ package: clean
 
 	@echo "zipping python code, uploading to S3 bucket, and transforming template"
 	aws cloudformation package \
-			--template-file sam.yml \
-			--s3-bucket ${S3_BUCKET} \
-			--output-template-file build/template-lambda.yml
+		--template-file sam.yml \
+		--s3-bucket ${S3_BUCKET} \
+		--output-template-file build/template-lambda.yml
 
 	@echo "Copying updated cloud template to S3 bucket"
 	aws s3 cp build/template-lambda.yml 's3://${S3_BUCKET}/template-lambda.yml'
 
 layer: clean-layer
 	pip3 install \
-			--isolated \
-			--disable-pip-version-check \
-			-Ur requirements.txt -t ./layer/
+		--isolated \
+		--disable-pip-version-check \
+		-Ur requirements.txt -t ./layer/
+
+deploy:
+	aws cloudformation deploy \
+		--template-file build/template-lambda.yml \
+		--region ${AWS_REGION} \
+		--stack-name "${PROJECT}-${ENV}" \
+		--parameter-overrides ENV=${ENV} \
+			RECIPIENTS=${RECIPIENTS} \
+			SENDER=${SENDER} \
+		--capabilities CAPABILITY_IAM \
+		--no-fail-on-empty-changeset
 
 clean-layer:
 	@rm -fr layer/
@@ -64,12 +80,3 @@ clean:
 	@find . -name '__pycache__' -exec rm -fr {} +
 
 cleaning: clean clean-layer
-
-deploy:
-	aws cloudformation deploy \
-			--template-file build/template-lambda.yml \
-			--region ${AWS_REGION} \
-			--stack-name "${project}-${env}" \
-			--parameter-overrides env=${env} \
-			--capabilities CAPABILITY_IAM \
-			--no-fail-on-empty-changeset
