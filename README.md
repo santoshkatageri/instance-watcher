@@ -3,7 +3,7 @@
 ## Description
 
 This AWS Lambda function will send you once a day a recap email with the list of the running EC2/RDS instances on all AWS region for a giver AWS Account.
-I'm using this for non-prod, lab, sandbox and personal AWS accounts, to get a kindly reminder of what I've left running. :money_with_wings:
+I'm using this for non-prod, lab, sandbox, and personal AWS accounts, to get a kindly reminder of what I've left running. :money_with_wings:
 
 ## Core features
 
@@ -11,7 +11,7 @@ I'm using this for non-prod, lab, sandbox and personal AWS accounts, to get a ki
   * Check `name`, `instance-id`, `instance_type`, `key_name`, `region`, `launch_time`
 * List running RDS instances across all AWS Regions.
   * Check `db_instance_name`, `db_engine`, `db_type`, `db_storage`, `region`, `launch_time`
-* White list capability using a tag
+* White list capability using the `iw` [tag](#Whitelisting)
 * Send summary by email once a day
 * Serverless Architecture using Lambda, Lambda layer and SES
 
@@ -24,7 +24,7 @@ I'm using this for non-prod, lab, sandbox and personal AWS accounts, to get a ki
 
 Change emails settings in `Makefile`
 
-> Nb: Recipients are space delimited
+> Nb: Recipients are space-delimited
 
 ```bash
 RECIPIENTS := my_target_email@domain.com my_second_target@domain.com
@@ -39,7 +39,7 @@ SENDER := my_source_email@domain.com
 
 ## Whitelisting
 
-If you want to whitelist a specific EC2 instance to be hidden from the daily report, you will need add the following tag to the EC2 instance.
+If you want to whitelist a specific EC2 instance to be hidden from the daily report, you will need to add the following tag to the EC2 instance.
 
 | Key | Value |
 |:---:|:-----:|
@@ -47,8 +47,8 @@ If you want to whitelist a specific EC2 instance to be hidden from the daily rep
 
 ## Todo
 
-* Create input file for settings or param store (recipients, sender, etc..)
 * Add SES setup built-in
 * Multi-Account Support
 * Add instance role column
+* Add pricing column
 * Bugfix when EC2 instance has no tag.
