@@ -56,8 +56,9 @@ def main(event, context):
         for instance in instances:
             if instance.state["Name"] == "running":
                 # For all instances tags
-                for tags in instance.tags:
-                    hidden = 0
+                hidden = 0
+                instancename = "n/a"
+                for tags in instance.tags or []:
                     if tags["Key"] == 'Name':
                         instancename = tags["Value"]
                     if tags["Key"] == 'iw' and tags["Value"] == 'off':
@@ -82,7 +83,6 @@ def main(event, context):
     print("Total number of running RDS instance(s):", len(running_rds))
     #print("Total number of hidden RDS instance(s):", len(hidden_rds_count)) # not yet implemented
 
-# do a function
     if (len(running_ec2) == 0 and len(running_rds) == 0):
         print("Nothing to do here, no running EC2 or RDS instances")
     else:

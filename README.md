@@ -51,4 +51,3 @@ If you want to whitelist a specific EC2 instance to be hidden from the daily rep
 * Multi-Account Support
 * Add instance role column
 * Add pricing column
-* Bugfix when EC2 instance has no tag.

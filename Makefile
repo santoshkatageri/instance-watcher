@@ -1,14 +1,22 @@
+.DEFAULT_GOAL := help
 
 help:
-	@echo "layer - prepare the layer"
-	@echo "package - prepare the package"
-	@echo "deploy - deploy the lambda function"
-	@echo "clean - clean the build folder"
-	@echo "clean-layer - clean the layer folder"
-	@echo "cleaning - clean build and layer folders"
+	@echo "${PROJECT}"
+	@echo "${DESCRIPTION}"
+	@echo ""
+	@echo "	layer - prepare the layer"
+	@echo "	package - prepare the package"
+	@echo "	deploy - deploy the lambda function"
+	@echo "	clean - clean the build folder"
+	@echo "	clean-layer - clean the layer folder"
+	@echo "	cleaning - clean build and layer folders"
+
+####################### Project #######################
+PROJECT ?= instance-watcher
+DESCRIPTION ?= My fancy project description
+#######################################################
 
 ###################### Variables ######################
-PROJECT ?= instance-watcher
 S3_BUCKET ?= ${PROJECT}-artifacts
 AWS_REGION ?= eu-west-1
 # Recipients are space delimited (ie: john@doe.com david@doe.com)
