@@ -20,8 +20,8 @@ DESCRIPTION ?= My fancy project description
 S3_BUCKET ?= ${PROJECT}-artifacts
 AWS_REGION ?= eu-west-1
 # Recipients are space delimited (ie: john@doe.com david@doe.com)
-RECIPIENTS := john.doe@domain.com
-SENDER := john.doe@domain.com
+RECIPIENTS := john@doe.com
+SENDER := john@doe.com
 ENV ?= dev
 #######################################################
 
@@ -51,10 +51,10 @@ deploy:
 		--template-file build/template-lambda.yml \
 		--region ${AWS_REGION} \
 		--stack-name "${PROJECT}-${ENV}" \
-		--parameter-overrides ENV=${ENV} \
-			RECIPIENTS=${RECIPIENTS} \
-			SENDER=${SENDER} \
 		--capabilities CAPABILITY_IAM \
+		--parameter-overrides ENV=${ENV} \
+			RECIPIENTS="${RECIPIENTS}" \
+			SENDER=${SENDER} \
 		--no-fail-on-empty-changeset
 
 clean-layer:
