@@ -22,7 +22,7 @@ I'm using this for non-prod, lab, sandbox, and personal AWS accounts, to get a k
 
 ## Deployment
 
-Change emails settings in `Makefile`
+Change emails settings in `Makefile` or use command-line
 
 > Nb: Recipients are space-delimited
 
@@ -35,7 +35,12 @@ SENDER := my_source_email@domain.com
 
         $ make layer
         $ make package project=<your_project_name>
-        $ make deploy project=<your_project_name>
+        $ make deploy \
+                project=<your_project_name> \
+                SENDER=sender@youremail.com \
+                RECIPIENTS='targetemail@youremail.com targetemail2@youremail.com'
+
+*Nb: Use emails in command line is optional if your already setup the `Makefile`*
 
 ## Whitelisting
 
@@ -48,6 +53,7 @@ If you want to whitelist a specific EC2 instance to be hidden from the daily rep
 ## Todo
 
 * Add SES setup built-in
+* Add unit tests
 * Multi-Account Support
-* Add instance role column
+* Add `Instance Profile` column
 * Add pricing column

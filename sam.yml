@@ -53,7 +53,8 @@ Resources:
         Timer:
           Type: Schedule
           Properties:
-            Schedule: rate(1 day)
+            Name: instance-watcher-schedule
+            Schedule: cron(0 0 * * ? *)
       Tags:
         Project: instance-watcher
 
