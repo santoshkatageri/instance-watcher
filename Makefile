@@ -13,7 +13,7 @@ help:
 
 ####################### Project #######################
 PROJECT ?= instance-watcher
-DESCRIPTION ?= My fancy project description
+DESCRIPTION ?= Instance Watcher Stack
 #######################################################
 
 ###################### Variables ######################
@@ -52,9 +52,11 @@ deploy:
 		--region ${AWS_REGION} \
 		--stack-name "${PROJECT}-${ENV}" \
 		--capabilities CAPABILITY_IAM \
-		--parameter-overrides ENV=${ENV} \
+		--parameter-overrides \
+			ENV=${ENV} \
 			RECIPIENTS="${RECIPIENTS}" \
 			SENDER=${SENDER} \
+			PROJECT=${PROJECT} \
 		--no-fail-on-empty-changeset
 
 clean-layer:

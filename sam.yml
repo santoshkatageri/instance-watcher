@@ -16,6 +16,10 @@ Parameters:
     Type: String
     Default: john@doe.com
     Description: Sender
+  PROJECT:
+    Type: String
+    Default: dev
+    Description: Project Name
 ###########################################################
 Resources:
 ###########################################################
@@ -56,7 +60,7 @@ Resources:
             Name: instance-watcher-schedule
             Schedule: cron(0 0 * * ? *)
       Tags:
-        Project: instance-watcher
+        Project: !Ref PROJECT
 
   boto3layer:
     Type: 'AWS::Serverless::LayerVersion'
