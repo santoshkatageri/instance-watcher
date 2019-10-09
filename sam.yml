@@ -8,6 +8,10 @@ Parameters:
     Type: String
     Default: dev
     Description: Environment Name
+  AWSREGION:
+    Type: String
+    Default: dev
+    Description: AWS Region
   RECIPIENTS:
     Type: String
     Default: john@doe.com
@@ -39,6 +43,7 @@ Resources:
         Variables:
           RECIPIENTS: !Ref RECIPIENTS
           SENDER: !Ref SENDER
+          AWSREGION: !Ref AWSREGION
       Policies:
         - AWSLambdaExecute # Managed Policy
         - Version: '2012-10-17' # Policy Document

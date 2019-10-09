@@ -18,7 +18,7 @@ I'm using this for non-prod, lab, sandbox, and personal AWS accounts, to get a k
 ## Requirements
 
 * [Verify](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses-procedure.html) your sender SES email
-* Create `<your_project_name>-artifacts` s3 bucket (default is instance-watcher)
+* Create `<your_project_name>-artifacts` s3 bucket (default is `instance-watcher-artifacts`)
 
 ## Deployment
 
@@ -36,11 +36,17 @@ SENDER := my_source_email@domain.com
         $ make layer
         $ make package project=<your_project_name>
         $ make deploy \
-                project=<your_project_name> \
+                ENV=<your_env_name> \
+                AWSREGION=<your_aws_region> \
+                PROJECT=<your_project_name> \
                 SENDER=sender@youremail.com \
                 RECIPIENTS='targetemail@youremail.com targetemail2@youremail.com'
 
 *Nb: Use emails in command line is optional if your already setup the `Makefile`*
+
+## Destroy
+
+        $ make tear-down
 
 ## Whitelisting
 
@@ -53,6 +59,7 @@ If you want to whitelist a specific EC2 instance to be hidden from the daily rep
 ## Todo
 
 * Add SES setup built-in
+* Whitelist for RDS Instances
 * Add unit tests
 * Multi-Account Support
 * Add `Instance Profile` column

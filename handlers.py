@@ -1,8 +1,8 @@
 import boto3
 import os
 
-AWS_REGION = 'eu-west-1'
-session = boto3.Session(region_name=AWS_REGION)
+aws_region = os.environ['AWSREGION']
+session = boto3.Session(region_name=aws_region)
 ec2 = session.client('ec2')
 ses = session.client('ses')
 sts = session.client('sts')

@@ -7,6 +7,7 @@ help:
 	@echo "	layer - prepare the layer"
 	@echo "	package - prepare the package"
 	@echo "	deploy - deploy the lambda function"
+	@echo "	destroy - destroy the CloudFormation stack"
 	@echo "	clean - clean the build folder"
 	@echo "	clean-layer - clean the layer folder"
 	@echo "	cleaning - clean build and layer folders"
@@ -57,7 +58,12 @@ deploy:
 			RECIPIENTS="${RECIPIENTS}" \
 			SENDER=${SENDER} \
 			PROJECT=${PROJECT} \
+			AWSREGION=${AWS_REGION} \
 		--no-fail-on-empty-changeset
+
+tear-down:
+	@read -p "Are you sure that you want to destroy stack '${PROJECT}-${ENV}'? [y/N]: " sure && [ $${sure:-N} = 'y' ]
+	aws cloudformation delete-stack --stack-name "${PROJECT}-${ENV}"
 
 clean-layer:
 	@rm -fr layer/
